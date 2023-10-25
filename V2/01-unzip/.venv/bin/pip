@@ -1,0 +1,10 @@
+#!/bin/sh
+'''exec' /home/jacopo/Documents/KTH/Courses/1stYear/1stSemester/Period1/SoftwareEngineering/DataCloudProject/V2/01-unzip/.venv/bin/python3 "$0" "$@"
+' '''
+# -*- coding: utf-8 -*-
+import re
+import sys
+from pip._internal.cli.main import main
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(main())

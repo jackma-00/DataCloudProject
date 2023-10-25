@@ -1,0 +1,63 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: orchestrator-
+spec:
+  entrypoint: orchestrator
+  volumeClaimTemplates:                 
+  - metadata:
+      name: data                     
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+
+  templates:
+  - name: orchestrator
+    steps:
+    - - name: unzip
+        template: unzip-template
+    - - name: convert
+        template: convert-template
+    - - name: split
+        template: split-template
+    - - name: transform
+        template: transform-template
+    - - name: arango
+        template: arango-template
+
+  - name: unzip-template
+    container:
+      image: jackma00/01-unzip:latest
+      volumeMounts:                    
+      - name: data
+        mountPath: /code
+    
+  - name: convert-template
+    container:
+      image: jackma00/02-convert:latest
+      volumeMounts:                    
+      - name: data
+        mountPath: /code
+  
+  - name: split-template
+    container:
+      image: jackma00/03-split:latest
+      volumeMounts:                    
+      - name: data
+        mountPath: /code
+  
+  - name: transform-template
+    container:
+      image: jackma00/04-transform:latest
+      volumeMounts:                    
+      - name: data
+        mountPath: /code
+
+  - name: arango-template
+    container:
+      image: jackma00/05-arango:latest
+      volumeMounts:                    
+      - name: data
+        mountPath: /code

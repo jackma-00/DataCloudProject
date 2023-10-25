@@ -1,0 +1,91 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: orchestrator-
+spec:
+  entrypoint: orchestrator
+  templates:
+  - name: orchestrator
+    steps:
+    - - name: unzip
+        template: unzip-template
+    - - name: convert
+        template: convert-template
+        arguments:
+          artifacts:
+          - name: f-in
+            from: "{{steps.unzip.outputs.artifacts.f-out}}"
+    - - name: split
+        template: split-template
+        arguments:
+          artifacts:
+          - name: f-in
+            from: "{{steps.convert.outputs.artifacts.f-out}}"
+    - - name: transform
+        template: transform-template
+        arguments:
+          artifacts:
+          - name: f-in
+            from: "{{steps.split.outputs.artifacts.f-out}}"
+    - - name: arango
+        template: arango-template
+        arguments:
+          artifacts:
+          - name: f-in
+            from: "{{steps.transform.outputs.artifacts.f-out}}"
+
+  - name: unzip-template
+    container:
+      image: jackma00/01-unzip:latest
+    outputs:
+      artifacts:
+      - name: f-out
+        path: /code/data/sample.txt
+    
+  - name: convert-template
+    inputs:
+      artifacts:
+      - name: f-in
+        path: /code/data/sample
+    container:
+      image: jackma00/02-convert:latest
+    outputs:
+      artifacts:
+      - name: f-out
+        path: /code/data/sample.txt
+  
+  - name: split-template
+    inputs:
+      artifacts:
+      - name: f-in
+        path: /code/data/sample
+    container:
+      image: jackma00/03-split:latest
+    outputs:
+      artifacts:
+      - name: f-out
+        path: /code/data/sample.txt
+  
+  - name: transform-template
+    inputs:
+      artifacts:
+      - name: f-in
+        path: /code/data/sample
+    container:
+      image: jackma00/04-transform:latest
+    outputs:
+      artifacts:
+      - name: f-out
+        path: /code/data/sample.txt
+
+  - name: arango-template
+    inputs:
+      artifacts:
+      - name: f-in
+        path: /code/data/sample
+    container:
+      image: jackma00/05-arango:latest
+    outputs:
+      artifacts:
+      - name: f-out
+        path: /code/data/sample.txt

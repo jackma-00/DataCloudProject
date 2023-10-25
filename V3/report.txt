@@ -1,0 +1,5 @@
+Time to build the pipeline with the data cloud tool: 0:30 hours
+    Note: 
+        - find the necessary building blocks
+        - concatenate them into the pipeline
+        - export the JSON file 

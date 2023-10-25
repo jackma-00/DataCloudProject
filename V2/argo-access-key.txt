@@ -1,0 +1,6 @@
+pub   rsa3072 2023-10-23 [SC] [expires: 2025-10-22]
+      F55E696D2D22326C1A92F2B3420E692E3F7640D9
+uid                      jackma00 <jacopo.maragna1@gmail.com>
+sub   rsa3072 2023-10-23 [E] [expires: 2025-10-22]
+
+

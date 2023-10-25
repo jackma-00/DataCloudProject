@@ -1,0 +1,8 @@
+Time to build the Argo pipeline and try to test it (unsuccessfully): 4:14 hours
+    Note: 
+        - each service logic has to be reviewed
+        - implemented two workflows:
+            - artifact 
+            - shared volume
+    Improvements:
+        - fix the remaining bugs

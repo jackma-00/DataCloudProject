@@ -1,0 +1,7 @@
+Time to build the containerized pipeline and test it with a local orchestrator: 4:48 hours
+    Note: 
+        - the logic is not implemented
+        - each service is tested with the same dummy file
+        - the orchestrator is not containerized yet
+    Improvements:
+        - containerize the orchestrator and use the shared volume
